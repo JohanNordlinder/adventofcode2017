@@ -48,6 +48,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Day12Part2.cs" />
+    <Compile Include="Day12Part1.cs" />
     <Compile Include="Day11Part2.cs" />
     <Compile Include="Day11Part1.cs" />
     <Compile Include="Day10Part2.cs" />
@@ -76,6 +78,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Day12TestInput.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Day12Input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Day5Input.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
