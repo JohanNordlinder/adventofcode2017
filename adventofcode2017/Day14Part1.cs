@@ -13,7 +13,6 @@ namespace adventofcode2017
         {
             var program = new Program();
             Assert.AreEqual("10100000110000100000000101110000", program.ToBinary("a0c20170"));
-
             Assert.AreEqual(8108, new Program().RunChallenge("flqrgnkx"));
         }
 
@@ -49,6 +48,7 @@ namespace adventofcode2017
                 return binarystring;
             }
 
+            // Copy from day 10 part 2
             public string KnotHash(string rawInput)
             {
                 var input = rawInput.Select(z => (int)z).ToList();

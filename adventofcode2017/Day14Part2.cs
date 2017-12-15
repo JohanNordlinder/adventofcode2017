@@ -34,32 +34,47 @@ namespace adventofcode2017
             {
                 var grid = new List<List<int>>();
 
-                var regions = new List<Square>();
+                var squares = new List<Square>();
 
-                for(int row = 0; row < 128; row++)
+                for (int row = 0; row < 128; row++)
                 {
                     var mask = ToBinary(KnotHash(input + "-" + row)).ToCharArray();
                     for(int column = 0; column < 128; column++)
                     {
                         if(mask[column] == '1') {
-                            var square = regions.FirstOrDefault(z =>
+                            var adjacentSquares = squares.Where(z =>
                                 (z.column == column && (z.row == row - 1 || z.row == row + 1)) || 
                                 (z.row == row && (z.column == column - 1 || z.column == column + 1))
-                            );
-                            if(square != null)
+                            ).ToList();
+
+                            var mergeTime = adjacentSquares.Select(z => z.region).Distinct().Count() > 1;
+
+                            var firstRegion = adjacentSquares.Any() ? adjacentSquares.First().region : -1;
+
+                            if (mergeTime)
                             {
-                                regions.Add(new Square { row = row, column = column, region = square.region });
+                                adjacentSquares.Select(z => z.region)
+                                    .Distinct()
+                                    .ToList()
+                                    .ForEach(region => squares.Where(x => x.region == region)
+                                    .ToList()
+                                    .ForEach(f => f.region = firstRegion));
+                            }
+
+                            if (firstRegion != -1)
+                            {
+                                squares.Add(new Square { row = row, column = column, region = firstRegion });
                             } else
                             {
-                                var max = regions.Any() ? regions.Max(z => z.region) : 0;
-                                regions.Add(new Square { row = row, column = column, region = max + 1});
+                                var max = squares.Any() ? squares.Max(z => z.region) : 0;
+                                squares.Add(new Square { row = row, column = column, region = max + 1});
                             }
                         }
 
                     }
                 }
 
-                return regions.Select(z => z.region).Distinct().Count();
+                return squares.Select(z => z.region).Distinct().Count();
             }
 
             public string ToBinary(String input)

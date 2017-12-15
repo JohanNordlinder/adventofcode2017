@@ -48,6 +48,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Day15Part2.cs" />
+    <Compile Include="Day15Part1.cs" />
     <Compile Include="Day14Part2.cs" />
     <Compile Include="Day14Part1.cs" />
     <Compile Include="Day13Part2..cs" />
