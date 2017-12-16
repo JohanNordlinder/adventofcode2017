@@ -1,0 +1,91 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace adventofcode2017
+{
+    [TestClass]
+    public class Day16Part2
+    {
+        [TestMethod]
+        public void RealRun()
+        {
+            var input = System.IO.File.ReadAllLines("Day16Input.txt").First().Split(',');
+            var programs = "abcdefghijklmnop".ToCharArray().Select(z => new Program.DancingProgram { name = z }).ToList();
+            Console.WriteLine("Result: " + new Program().RunChallenge(programs, input));
+        }
+
+        public class Program
+        {
+            public class DancingProgram
+            {
+                public char name { get; set; }
+            }
+
+            public String RunChallenge(List<DancingProgram> programs, string[] input)
+            {
+                var loopSize = -1;
+                var initalPositions = NamesAsString(programs);
+                var loopCount = 0;
+
+                while (true)
+                {
+                    loopCount++;
+                    DoDance(programs, input);
+                    if(initalPositions == NamesAsString(programs))
+                    {
+                        loopSize = loopCount;
+                        break;
+                    }  
+                }
+
+                for(int i = 0; i < 1000000000 % loopSize; i++) {
+                    DoDance(programs, input);
+                }
+
+                return NamesAsString(programs);
+            }
+
+            private String NamesAsString(List<DancingProgram> programs)
+            {
+                return string.Join("", programs.Select(z => z.name).ToArray());
+            }
+
+            private void DoDance(List<DancingProgram> programs, string[] input)
+            {
+                input.ToList().ForEach(z =>
+                {
+                    var move = z.Substring(0, 1);
+                    switch (move)
+                    {
+                        case "s":
+                            var spinCount = int.Parse(z.Substring(1));
+                            var programsToSpin = programs.Take(programs.Count() - spinCount).ToList();
+                            programs.RemoveRange(0, programs.Count() - spinCount);
+                            programs.AddRange(programsToSpin);
+                            break;
+                        case "x":
+                            var swapIndex1 = int.Parse(z.Substring(1).Substring(0, z.IndexOf('/') - 1));
+                            var swapIndex2 = int.Parse(z.Substring(1).Substring(z.IndexOf('/')));
+                            var programToSwap1 = programs[swapIndex1];
+                            var programToSwap2 = programs[swapIndex2];
+                            var temp = programToSwap1.name;
+                            programToSwap1.name = programToSwap2.name;
+                            programToSwap2.name = temp;
+                            break;
+                        case "p":
+                            var swapName1 = z.Substring(1, 1);
+                            var swapName2 = z.Substring(3, 1);
+                            var programToPartner1 = programs.First(x => x.name.ToString() == swapName1);
+                            var programToPartner2 = programs.First(x => x.name.ToString() == swapName2);
+                            var temp2 = programToPartner1.name;
+                            programToPartner1.name = programToPartner2.name;
+                            programToPartner2.name = temp2;
+                            break;
+                    }
+                });
+            }
+        }
+    }
+}
