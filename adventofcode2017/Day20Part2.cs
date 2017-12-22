@@ -93,7 +93,7 @@ namespace adventofcode2017
             {
                 var particle = new Particle();
 
-                var split = Regex.Split(input, ", "); ;
+                var split = Regex.Split(input, ", ");
 
                 var position = ParsePart(split, 0);
                 particle.X = int.Parse(position[0]);
