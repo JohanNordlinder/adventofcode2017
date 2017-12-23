@@ -1,0 +1,39 @@
+﻿set b 81
+set c b
+	jnz a 2 <- A == 1 så denna och nästa kan skippas
+	jnz 1 5 
+mul b 100
+sub b -100000
+set c b <- C blir lika som B
+sub c -17000 <- C blir 17000 mindre, det kommer ta B 1000 iterationer att nå dit
+	# Loop
+	set f 1
+	set d 2
+		# Loop
+		set e 2
+			# Loop
+			set g d
+			mul g e
+			sub g b
+			jnz g 2 <- Om B är ett primtal hoppa över nästa instruktion
+			set f 0 <- Sätter F till 0
+			sub e -1 <- E minskas med 1
+			set g e 
+			sub g b
+			jnz g -8 <- Loop stannar när E == B
+		sub d -1 <- d minskas med 1
+		set g d
+		sub g b
+		jnz g -13 <- Loop stannar när D == B
+	jnz f 2 <- Om F != 0 kommer H-förändringen skippas
+sub h -1 <- H reduceras med 1, kommer ske varje gång instruktionen inte hoppas över
+set g b
+sub g c
+jnz g 2 <- När B == C stannar programmet
+jnz 1 3
+sub b -17 <- B reduceras med 17
+jnz 1 -23 <- Återgår till instruktion nummer 8
+
+1001 iterationer
+92 primtal av de B's som passerar i körningen
+B i slutet för körningen: 1001 - 92 = 909
